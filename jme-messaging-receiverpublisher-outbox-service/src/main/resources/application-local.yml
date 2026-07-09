@@ -1,0 +1,44 @@
+declaration:
+  touch:
+    schedule: "0 * * * * *"
+jeap:
+  messaging:
+    kafka:
+      bootstrapServers: "http://localhost:9092"
+      schemaRegistryUrl: "http://localhost:7781"
+      username: user
+      password: user-secret
+      securityProtocol: SASL_PLAINTEXT
+      set-compatibility-mode-none: true
+  monitor:
+    prometheus:
+      password: "{noop}secret"
+  reaction:
+    observer:
+      events:
+        observed-event-rate-seconds: 10
+  security:
+    oauth2:
+      resourceserver:
+        log:
+          authentication-failure:
+            enabled: true
+          access-denied:
+            enabled: true
+            debug: true
+        authorization-server:
+          issuer: "http://localhost:8073/jme-messaging-auth-scs"
+          jwk-set-uri: "http://localhost:8073/jme-messaging-auth-scs/.well-known/jwks.json"
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5533/jme-receiverpublisher-outbox-db-local"
+    username: "receiverpublisher-outbox"
+    password: "secret"
+
+server:
+  port: 8079
+
+logging:
+  level:
+    ch.admin.bit.jeap.security.resource.log: DEBUG

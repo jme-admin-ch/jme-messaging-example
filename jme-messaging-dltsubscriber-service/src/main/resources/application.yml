@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: jme-messaging-dltsubscriber-service
+server:
+  servlet:
+    context-path: /jme-messaging-dltsubscriber-service
+jeap:
+  messaging:
+    kafka:
+      errorTopicName: jme-messageprocessing-failed
+      systemName: JME
+      serviceName: ${spring.application.name}
+      consume-without-contract-allowed: true
+      silent-ignore-without-contract: true
+  monitor:
+    prometheus:
+      password: "{bcrypt}$2y$10$lQpXpUV5ZDoJdG0vjlGkIOIqrRKDbsS5dqwF/JQ.f9IqKF7GDjNB6"
+  web:
+    tls:
+      enabled: false

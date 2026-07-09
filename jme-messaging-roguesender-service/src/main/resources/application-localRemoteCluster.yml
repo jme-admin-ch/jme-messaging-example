@@ -1,0 +1,13 @@
+jeap:
+  messaging:
+    kafka:
+      bootstrapServers: bootstrap.cfae-bazg-kafka-kafka-dazit-kafka-dev.tcp-sni-svc.ccp03.atlantica.admin.ch:443
+      securityProtocol: SASL_SSL
+      username: blueman-jeapmicrosvc-test
+      password: SET_PWD
+      useSchemaRegistry: true
+      schemaRegistryUrl: https://registry-cfae-bazg-kafka-kafka-dazit-kafka-dev.svc.ccp03.atlantica.admin.ch
+      schemaRegistryUsername: producer
+      schemaRegistryPassword: SET_PWD
+      autoRegisterSchema: true
+

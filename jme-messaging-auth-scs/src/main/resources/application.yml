@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: jme-messaging-auth-scs
+server:
+  servlet:
+    context-path: /jme-messaging-auth-scs
+oauth-mock-data:
+  users:
+    - id: "user"
+      given-name: "Henriette"
+      family-name: "Muster"
+      locale: "DE"
+      preferred-username: "12345"
+      userroles:
+        - "jme_@error_#view"
+        - "jme_@error_#retry"
+        - "jme_@error_#delete"
+        - "jme_@errorgroup_#view"
+        - "jme_@errorgroup_#edit"
+        - "agir_write"
+        - "agir_read"
+        - "jme_@sequentialinbox_#view"
+        - "jme_@sequentialinbox_#write"
+        - "jme_@declaration_#write"
+jeap:
+  monitor:
+    prometheus:
+      user: "prometheus"
+      password: "{noop}secret"
+  web:
+    tls:
+      enabled: false

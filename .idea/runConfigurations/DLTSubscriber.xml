@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DLTSubscriber" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="jme-messaging-dltsubscriber-service" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="ch.admin.bit.jeap.jme.event.receiver.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.admin.bit.jeap.jme.messaging.dltsubscriber.Application" />
+    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

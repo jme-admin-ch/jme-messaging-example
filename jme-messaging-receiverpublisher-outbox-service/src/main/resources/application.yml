@@ -1,0 +1,55 @@
+declaration:
+  touch:
+    schedule: "0 0 * * * *"
+spring:
+  application:
+    name: jme-messaging-receiverpublisher-outbox-service
+  flyway:
+    # Flyway creates automatically the default schema if it doesn't exist
+    default-schema: ${spring.jpa.properties.hibernate.default_schema}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    properties:
+      hibernate.default_schema: data
+  datasource:
+    hikari:
+      schema: ${spring.jpa.properties.hibernate.default_schema}
+      maximum-pool-size: 5
+      pool-name: "hikari-cp-${spring.application.name}"
+server:
+  servlet:
+    context-path: /jme-messaging-receiverpublisher-outbox-service
+jeap:
+  security:
+    oauth2:
+      resourceserver:
+        system-name: "jme"
+  audit:
+    transactional-outbox:
+      topic: "protocol-create-audit-record-event"
+  messaging:
+    kafka:
+      errorTopicName: jme-messageprocessing-failed
+      systemName: JME
+      serviceName: ${spring.application.name}
+  swagger:
+    status: OPEN
+  postgresql:
+    aws:
+      enabled: false
+  web:
+    tls:
+      enabled: false
+  reaction:
+    observer:
+      events:
+        reaction-identified-topic: jme-reaction-identified
+        reactions-observed-topic: jme-reactions-observed
+management:
+  # Trace every request so every demo call in this example produces a trace.
+  # Spring Boot's default is 0.1 (10%). Production services should usually leave the
+  # default in place (or sample even lower) to keep trace storage and cost bounded.
+  tracing:
+    sampling:
+      probability: 1.0

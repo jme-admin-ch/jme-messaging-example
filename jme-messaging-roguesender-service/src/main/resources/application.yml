@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: jme-messaging-roguesender-service
+server:
+  servlet:
+    context-path: /jme-messaging-roguesender-service
+jeap:
+  monitor:
+    prometheus:
+      password: "{bcrypt}$2y$10$lQpXpUV5ZDoJdG0vjlGkIOIqrRKDbsS5dqwF/JQ.f9IqKF7GDjNB6"
+  web:
+    tls:
+      enabled: false

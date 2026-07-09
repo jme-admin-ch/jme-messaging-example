@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: jme-messaging-error-scs
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5532/jeap-error-handling-service-db-local"
+    hikari:
+      maximum-pool-size: 10
+      pool-name: "hikari-cp-${spring.application.name}"
+      schema: ${spring.jpa.properties.hibernate.default_schema}
+  jpa:
+    properties:
+      hibernate.default_schema: data
+  flyway:
+    # Flyway creates automatically the default schema if it doesn't exist
+    default-schema: ${spring.jpa.properties.hibernate.default_schema}
+  security:
+    oauth2:
+      client:
+        registration:
+          jme-messaging-error-service:
+            client-id: "jme-messaging-error-service"
+            client-secret: "secret"
+            authorization-grant-type: "client_credentials"
+            provider: "agir-oauth2-provider"
+        provider:
+          agir-oauth2-provider:
+            issuer-uri: "${jeap.security.oauth2.resourceserver.authorization-server.issuer}"
+#The servlet path must be error-handling as this is defined in the error-handling UI
+server:
+  servlet:
+    context-path: /error-handling
+jeap:
+  errorhandling:
+    # Define the topic where to look for errors. This must be configured in all
+    # event consumer as jeap.messaging.kafka.errorTopicName
+    topic: "jme-messageprocessing-failed"
+    deadLetterTopicName: "jme-messageprocessing-deadletter"
+    # Define the global frontend properties
+    frontend:
+      clientId: "error-handling-ui"
+      silentRenew: true
+      systemName: "jme"
+      autoLogin: true
+      renewUserInfoAfterTokenRenew: true
+      ticketingSystemUrl: https://jira.bit.admin.ch/browse/{ticketNumber}
+    #Currently there is no integration of manual task service
+    task-management:
+      service:
+        enabled: false
+  reaction:
+    observer:
+      events:
+        reaction-identified-topic: jme-reaction-identified
+        reactions-observed-topic: jme-reactions-observed
+
+  messaging:
+    kafka:
+      systemName: JME
+      serviceName: ${spring.application.name}
+  security:
+    oauth2:
+      resourceserver:
+        system-name: "jme"
+  postgresql:
+    aws:
+      enabled: false
+  web:
+    tls:
+      enabled: false
+  swagger:
+    status: open
+log:
+  deep-link:
+    base-url: "https://lem-center.bit.admin.ch/en-GB/app/bv_app_caasp/search?q=search%20msg.traceId%3D{traceId}%20earliest%3D-1mon"
+management:
+  # Trace every request so every demo call in this example produces a trace.
+  # Spring Boot's default is 0.1 (10%). Production services should usually leave the
+  # default in place (or sample even lower) to keep trace storage and cost bounded.
+  tracing:
+    sampling:
+      probability: 1.0

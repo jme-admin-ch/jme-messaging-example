@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: jme-messaging-subscriber-service
+server:
+  servlet:
+    context-path: /jme-messaging-subscriber-service
+jeap:
+  messaging:
+    kafka:
+      errorTopicName: jme-messageprocessing-failed
+      systemName: JME
+      serviceName: ${spring.application.name}
+  monitor:
+    prometheus:
+      password: "{bcrypt}$2y$10$lQpXpUV5ZDoJdG0vjlGkIOIqrRKDbsS5dqwF/JQ.f9IqKF7GDjNB6"
+  web:
+    tls:
+      enabled: false
+  reaction:
+    observer:
+      events:
+        reaction-identified-topic: jme-reaction-identified
+        reactions-observed-topic: jme-reactions-observed
+management:
+  # Trace every request so every demo call in this example produces a trace.
+  # Spring Boot's default is 0.1 (10%). Production services should usually leave the
+  # default in place (or sample even lower) to keep trace storage and cost bounded.
+  tracing:
+    sampling:
+      probability: 1.0

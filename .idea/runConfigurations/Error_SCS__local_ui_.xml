@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Error-SCS (local-ui)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="local-ui" />
+    <module name="jme-messaging-error-scs" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.admin.bit.jeap.errorhandling.Application" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

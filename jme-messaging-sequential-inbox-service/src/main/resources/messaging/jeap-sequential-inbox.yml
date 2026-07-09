@@ -1,0 +1,37 @@
+subTypeResolvers:
+  JmeOrderValidatedEvent: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.OrderValidatedEventSubTypeResolver
+
+sequences:
+  - name: OrderSequence
+    retentionPeriod: 5m
+    messages:
+
+      - type: JmeOrderCreatedEvent
+        contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+        messageFilter: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.OrderCreatedEventFilter
+
+      - type: JmeOrderValidatedEvent
+        subType: STOCK_AVAILABLE
+        contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+        releaseCondition:
+          predecessor: JmeOrderCreatedEvent
+
+      - type: JmeOrderValidatedEvent
+        subType: CUSTOMER_CREDIT_CHECKED
+        contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+        releaseCondition:
+          predecessor: JmeOrderCreatedEvent
+
+      - type: JmeOrderPreparedEvent
+        contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+        releaseCondition:
+          predecessor: JmeOrderCreatedEvent
+
+      - type: JmeOrderShippedEvent
+        contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+        releaseCondition:
+          # It is also possible to define conditions with OR, as well as nesting conditions.
+          and:
+            - predecessor: JmeOrderValidatedEvent.STOCK_AVAILABLE
+            - predecessor: JmeOrderValidatedEvent.CUSTOMER_CREDIT_CHECKED
+            - predecessor: JmeOrderPreparedEvent

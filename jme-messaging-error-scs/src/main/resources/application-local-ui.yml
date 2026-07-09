@@ -1,0 +1,54 @@
+jeap:
+  errorhandling:
+    #Define the frontend properties
+    frontend:
+      applicationUrl: http://localhost:4200
+      logoutRedirectUri: http://localhost:4199/
+      mockPams: true
+      pamsEnvironment: REF
+
+    resend:
+      default-resending-strategy:
+        max-retries: 5
+        exponential-backoff-enabled: false
+        delay: 10s
+
+# Issue tracking not configured locally by default because of the missing Jira credentials
+#    error-groups:
+#      issue-tracking:
+#        project: "JME"
+#        error-handling-service-group-url-template: "http://localhost:4200/error-group-details/{group-id}"
+#
+#    jira:
+#      base-url: "https://jira.bit.admin.ch"
+#      username: "SET_USERNAME"
+#      token: "SET_TOKEN"
+
+  swagger:
+    status: open
+
+  #Define the authentication server, see oauth docu for details
+  security:
+    oauth2:
+      resourceserver:
+        authorization-server:
+          issuer: "http://localhost:8073/jme-messaging-auth-scs"
+          jwk-set-uri: "http://localhost:8073/jme-messaging-auth-scs/.well-known/jwks.json"
+
+  #Define the Kafka cluster to be used. See docu of messaging library for details
+  messaging:
+    kafka:
+      bootstrapServers: "http://localhost:9092"
+      schemaRegistryUrl: "http://localhost:7781"
+      username: user
+      password: user-secret
+      securityProtocol: SASL_PLAINTEXT
+      set-compatibility-mode-none: true
+
+server:
+  port: 8072
+
+spring:
+  datasource:
+    username: "errorhandling"
+    password: "secret"

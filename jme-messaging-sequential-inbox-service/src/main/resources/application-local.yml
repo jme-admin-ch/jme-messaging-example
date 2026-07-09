@@ -1,0 +1,46 @@
+server:
+  port: 8089
+
+jeap:
+  messaging:
+    kafka:
+      bootstrapServers: "http://localhost:9092"
+      schemaRegistryUrl: "http://localhost:7781"
+      username: user
+      password: user-secret
+      securityProtocol: SASL_PLAINTEXT
+      set-compatibility-mode-none: true
+    sequential-inbox:
+      housekeeping:
+        closed-instances-cron: "0 * * * * ?"
+        expiry-cron: "15 * * * * ?"
+        delete-for-removal-cron: "30 * * * * ?"
+        delay: "1m"
+
+  #Define the authentication server, see oauth docu for details
+  security:
+    oauth2:
+      resourceserver:
+        authorization-server:
+          issuer: "http://localhost:8073/jme-messaging-auth-scs"
+          jwk-set-uri: "http://localhost:8073/jme-messaging-auth-scs/.well-known/jwks.json"
+
+  monitor:
+    prometheus:
+      password: "{noop}secret"
+
+spring:
+  kafka:
+    consumer:
+      properties:
+        # A fresh consumer group otherwise defaults to "latest", which can race with a message
+        # produced right after this service starts (e.g. in the jme-messaging-test IT tests).
+        auto.offset.reset: earliest
+  datasource:
+    url: "jdbc:postgresql://localhost:5534/jme-sequential-inbox-db-local"
+    username: "sequential-inbox"
+    password: "secret"
+
+logging.level:
+  ch.admin.bit.jeap.messaging.sequentialinbox.housekeeping.SequentialInboxHousekeepingService: "DEBUG"
+  ch.admin.bit.jeap.messaging.sequentialinbox.inbox.ErrorHandlingService: "DEBUG"

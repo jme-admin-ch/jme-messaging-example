@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: jme-messaging-self-messaging-service
+server:
+  servlet:
+    context-path: /jme-messaging-self-messaging-service
+jeap:
+  monitor:
+    prometheus:
+      password: "{bcrypt}$2y$10$lQpXpUV5ZDoJdG0vjlGkIOIqrRKDbsS5dqwF/JQ.f9IqKF7GDjNB6"
+  messaging:
+    kafka:
+      errorTopicName: jme-messageprocessing-failed
+      systemName: JME
+      serviceName: ${spring.application.name}
+  web:
+    tls:
+      enabled: false

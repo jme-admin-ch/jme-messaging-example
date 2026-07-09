@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <name>${project.groupId}:${project.artifactId}</name>
+    <modelVersion>4.0.0</modelVersion>
+    <url>https://github.com/jme-admin-ch/jme-messaging-example/tree/main</url>
+    <scm>
+        <url>https://github.com/jme-admin-ch/jme-messaging-example.git</url>
+        <connection>scm:git:git://github.com/jme-admin-ch/jme-messaging-example.git</connection>
+        <developerConnection>scm:git:ssh://github.com:jme-admin-ch/jme-messaging-example.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>BIT</name>
+            <email>jeap-community@bit.admin.ch</email>
+            <organization>Federal Office of Information Technology, Systems and Telecommunication FOITT</organization>
+            <organizationUrl>https://www.bit.admin.ch/</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <parent>
+        <groupId>ch.admin.bit.jeap</groupId>
+        <artifactId>jeap-spring-boot-parent</artifactId>
+        <version>36.3.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>ch.admin.bit.jeap</groupId> <!-- GroupId is necessary for RHOS sca-check-->
+    <artifactId>jme-messaging-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>jme-messaging-common-lib</module>
+        <module>jme-messaging-sender-service</module>
+        <module>jme-messaging-receiverpublisher-service</module>
+        <module>jme-messaging-receiverpublisher-outbox-service</module>
+        <module>jme-messaging-subscriber-service</module>
+        <module>jme-messaging-dltsubscriber-service</module>
+        <module>jme-messaging-roguesender-service</module>
+        <module>jme-messaging-auth-scs</module>
+        <module>jme-messaging-error-scs</module>
+        <module>jme-messaging-self-messaging-service</module>
+        <module>jme-messaging-sequential-inbox-service</module>
+        <module>jme-messaging-test</module>
+    </modules>
+
+    <properties>
+        <jeap-oauth-mock-server.version>6.2.0</jeap-oauth-mock-server.version>
+        <jeap-error-handling-service.version>18.5.0</jeap-error-handling-service.version>
+        <jme-spring-boot-integration-test.version>5.5.0</jme-spring-boot-integration-test.version>
+        <java.version>25</java.version>
+        <maven.compiler.release>25</maven.compiler.release>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-common-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-sender-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-receiverpublisher-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-receiverpublisher-outbox-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-subscriber-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-dltsubscriber-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-roguesender-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-self-messaging-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>jme-messaging-sequential-inbox-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Add license to jar manifest -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Bundle-License>https://www.apache.org/licenses/LICENSE-2.0</Bundle-License>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- Check third-party license compliance -->
+            <plugin>
+                <groupId>org.honton.chas</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+            <!-- Generate third-party license list and check for missing license information -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

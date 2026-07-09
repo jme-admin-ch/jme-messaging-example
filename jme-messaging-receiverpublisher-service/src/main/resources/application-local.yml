@@ -1,0 +1,19 @@
+jeap:
+  messaging:
+    kafka:
+      bootstrapServers: "http://localhost:9092"
+      schemaRegistryUrl: "http://localhost:7781"
+      username: user
+      password: user-secret
+      securityProtocol: SASL_PLAINTEXT
+      set-compatibility-mode-none: true
+  monitor:
+    prometheus:
+      password: "{noop}secret"
+  reaction:
+    observer:
+      events:
+        observed-event-rate-seconds: 10
+
+server:
+  port: 8071

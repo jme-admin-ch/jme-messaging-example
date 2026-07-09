@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SequentialInbox" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="local" />
+    <module name="jme-messaging-sequential-inbox-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.admin.bit.jeap.jme.messaging.sequentialinbox.SequentialInboxApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="ch.admin.bit.jeap.jme.messaging.sequentialinbox.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

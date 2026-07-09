@@ -1,0 +1,53 @@
+publiccodeYmlVersion: 0.5.0
+name: jme-messaging-example
+applicationSuite: JME
+softwareVersion: 1.0.0
+releaseDate: 2026-07-09
+url: "https://github.com/jme-admin-ch/jme-messaging-example.git"
+landingURL: "https://github.com/jme-admin-ch/jme"
+platforms:
+  - web
+categories:
+  - application-development
+developmentStatus: stable
+softwareType: standalone/backend
+organisation:
+  uri: https://ld.admin.ch/office/V.1.7
+  name: Federal Office of Information Technology, Systems and Telecommunication
+description:
+  en:
+    localisedName: jme-messaging-example
+    shortDescription: Example project demonstrating how to use the jEAP Messaging Library with Kafka.
+    longDescription: >
+      This example shows how to use the jEAP Messaging Library with Kafka for publishing/subscribing to
+      events and for sending/receiving commands. It demonstrates the transactional outbox pattern, the
+      sequential inbox, idempotent message handling, message signing, dead letter topic handling and
+      backward-compatible schema evolution. The repository contains the following modules:
+      * jme-messaging-sender-service: sends commands
+      * jme-messaging-receiverpublisher-service: receives commands and publishes events
+      * jme-messaging-receiverpublisher-outbox-service: same as receiverpublisher-service but publishes
+        events using the transactional outbox
+      * jme-messaging-subscriber-service: subscribes to events and stores them locally
+      * jme-messaging-error-scs: handles errors if an event or command could not be processed
+      * jme-messaging-self-messaging-service: shows how a message type can be evolved for a microservice
+        that sends messages to itself
+      * jme-messaging-auth-scs: authenticates users to access the UI of jme-messaging-error-scs
+      * jme-messaging-roguesender-service: sends events directly to the error topic to test error handling
+      * jme-messaging-dltsubscriber-service: subscribes to messages in the dead letter topic
+      * jme-messaging-sequential-inbox-service: demonstrates the sequential inbox
+      * jme-messaging-common-lib: a shared library implementing the example events and commands
+    features:
+      - Demonstrates publishing/subscribing to events and sending/receiving commands with Kafka
+      - Includes examples for the transactional outbox, sequential inbox and idempotent message handling
+      - Demonstrates message signing, dead letter topic handling and backward-compatible schema evolution
+legal:
+  license: Apache-2.0
+maintenance:
+  type: internal
+  contacts:
+    - name: Federal Office of Information Technology, Systems and Telecommunication FOITT
+      email: jeap-community@bit.admin.ch
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en

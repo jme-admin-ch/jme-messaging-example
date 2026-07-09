@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: jme-messaging-sequential-inbox-service
+  flyway:
+    # Flyway creates automatically the default schema if it doesn't exist
+    default-schema: ${spring.jpa.properties.hibernate.default_schema}
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.default_schema: data
+  datasource:
+    hikari:
+      schema: ${spring.jpa.properties.hibernate.default_schema}
+      maximum-pool-size: 5
+      pool-name: "hikari-cp-${spring.application.name}"
+server:
+  servlet:
+    context-path: /jme-messaging-sequential-inbox-service
+jeap:
+  messaging:
+    kafka:
+      errorTopicName: jme-messageprocessing-failed
+      systemName: JME
+      serviceName: ${spring.application.name}
+    sequential-inbox:
+      housekeeping:
+        closed-instances-cron: "0 1/5 * * * ?"
+        expiry-cron: "0 2/5 * * * ?"
+        delete-for-removal-cron: "0 3/5 * * * ?"
+        delay: "7m"
+  security:
+    oauth2:
+      resourceserver:
+        system-name: "jme"
+  swagger:
+    status: OPEN
+  monitor:
+    prometheus:
+      password: "{bcrypt}$2y$10$lQpXpUV5ZDoJdG0vjlGkIOIqrRKDbsS5dqwF/JQ.f9IqKF7GDjNB6"
+  postgresql:
+    aws:
+      enabled: false
+  web:
+    tls:
+      enabled: false
+  reaction:
+    observer:
+      events:
+        reaction-identified-topic: jme-reaction-identified
+        reactions-observed-topic: jme-reactions-observed
+
+management:
+  observations:
+    annotations:
+      enabled: true
+  # Trace every request so every demo call in this example produces a trace.
+  # Spring Boot's default is 0.1 (10%). Production services should usually leave the
+  # default in place (or sample even lower) to keep trace storage and cost bounded.
+  tracing:
+    sampling:
+      probability: 1.0

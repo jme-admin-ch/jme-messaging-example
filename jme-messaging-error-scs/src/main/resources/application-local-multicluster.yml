@@ -1,0 +1,49 @@
+jeap:
+  errorhandling:
+    #Define the frontend properties
+    frontend:
+      applicationUrl: http://localhost:8072/error-handling
+      logoutRedirectUri: http://localhost:4199/
+      mockPams: true
+      pamsEnvironment: REF
+
+    resend:
+      default-resending-strategy:
+        max-retries: 5
+        exponential-backoff-enabled: false
+        delay: 10s
+
+  swagger:
+    status: open
+
+  #Define the authentication server, see oauth docu for details
+  security:
+    oauth2:
+      resourceserver:
+        authorization-server:
+          issuer: "http://localhost:8073/jme-messaging-auth-scs"
+          jwk-set-uri: "http://localhost:8073/jme-messaging-auth-scs/.well-known/jwks.json"
+
+  messaging:
+    kafka:
+      cluster:
+        default:
+          bootstrapServers: "http://localhost:10000"
+          schemaRegistryUrl: "http://localhost:11000"
+          username: user
+          password: user-secret
+          securityProtocol: SASL_PLAINTEXT
+        aws:
+          bootstrapServers: "http://localhost:12000"
+          schemaRegistryUrl: "http://localhost:13000"
+          username: aws-user
+          password: aws-secret
+          securityProtocol: SASL_PLAINTEXT
+
+server:
+  port: 8072
+
+spring:
+  datasource:
+    username: "errorhandling"
+    password: "secret"

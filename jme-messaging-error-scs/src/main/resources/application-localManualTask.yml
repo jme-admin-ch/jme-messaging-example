@@ -1,0 +1,67 @@
+jeap:
+  errorhandling:
+    #Define the frontend properties
+    frontend:
+      applicationUrl: http://localhost:8072/error-handling
+      logoutRedirectUri: http://localhost:4199/
+      mockPams: true
+      pamsEnvironment: REF
+
+    #This profile can be used together with local to use a locally installed manual task service
+    task-management:
+      service:
+        enabled: true
+        url: http://localhost:8090/shared-agir-service/
+        clientId: "jme-messaging-error-service"
+      default-factory:
+        errorServiceBaseUrl: http://localhost:8072/error-handling/error-details/
+        priority: HIGH  # optional
+        system: JME
+        timeToHandle: 1d  # optional
+        domain: "error-handling" # optional
+        task-reference-name: "Error Service" # optional
+        display:
+          DE:
+            title: "Fehlgeschlagene Nachrichten-Verarbeitung"
+            description: "Ein technischer Fehler ist aufgrund einer unverarbeitbaren Nachricht aufgetreten."
+            displayName: "Nachrichten-Verarbeitungsfehler"
+            displayDomain: "Error Handling"
+          # FR:, IT:, EN: analog DE:
+  #Define the authentication server, see oauth docu for details
+  security:
+    oauth2:
+      resourceserver:
+        authorization-server:
+          issuer: "http://localhost:8073/jme-messaging-auth-scs"
+          jwk-set-uri: "http://localhost:8073/jme-messaging-auth-scs/.well-known/jwks.json"
+
+  #Define the Kafka cluster to be used. See docu of messaging library for details
+  messaging:
+    kafka:
+      bootstrapServers: "http://localhost:9092"
+      schemaRegistryUrl: "http://localhost:7781"
+      username: user
+      password: user-secret
+      securityProtocol: SASL_PLAINTEXT
+      set-compatibility-mode-none: true
+
+server:
+  port: 8072
+
+
+spring:
+  datasource:
+    username: "errorhandling"
+    password: "secret"
+  security:
+    oauth2:
+      client:
+        registration:
+          jme-messaging-error-service:
+            client-id: "jme-messaging-error-service"
+            client-secret: "secret"
+            authorization-grant-type: "client_credentials"
+            provider: "agir-oauth2-provider"
+        provider:
+          agir-oauth2-provider:
+            issuer-uri: "http://localhost:8188"

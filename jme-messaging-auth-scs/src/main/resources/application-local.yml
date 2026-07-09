@@ -1,0 +1,46 @@
+server:
+  port: 8073
+mockserver:
+  base-url: "http://localhost:${server.port}/jme-messaging-auth-scs"
+oauth-mock-data:
+  clients:
+    - client-id: "error-handling-ui"
+      registered-redirect-uri:
+        - "http://localhost:8072/error-handling/redirect"
+        - "http://localhost:8072/error-handling/assets/auth/silent-renew.html"
+        - "http://localhost:4200/redirect"
+        - "http://localhost:4200/assets/auth/silent-renew.html"
+      userroles:
+        - "jme_@error_#view"
+        - "jme_@error_#retry"
+        - "jme_@error_#delete"
+        - "jme_@errorgroup_#view"
+        - "jme_@errorgroup_#edit"
+
+    - client-id: "sequential-inbox-devops"
+      registered-redirect-uri:
+        - "http://localhost:8089/jme-messaging-sequential-inbox-service/swagger-ui/oauth2-redirect.html"
+      userroles:
+        - "jme_@sequentialinbox_#view"
+        - "jme_@sequentialinbox_#write"
+
+    - client-id: "shared-agir-web-ui-client"
+      context: "USER"
+      registered-redirect-uri: ["http://localhost:4200/"]
+      userroles: ["agir_read", "agir_write"]
+
+    - client-id: "jme-messaging-error-service"
+      client-secret: "{noop}secret"
+      context: "SYS"
+      userroles: ["agir_%jme_@errorhandling"]
+
+    - client-id: "jme-messaging-it-client"
+      client-secret: "{noop}secret"
+      context: "SYS"
+      userroles: [ "jme_@error_#view", "jme_@error_#retry" ]
+
+    - client-id: "declaration-devops"
+      context: "USER"
+      userroles: [ "jme_@declaration_#write" ]
+      registered-redirect-uri:
+        - "http://localhost:8079/jme-messaging-receiverpublisher-outbox-service/swagger-ui/oauth2-redirect.html"
