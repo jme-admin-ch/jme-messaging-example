@@ -45,7 +45,7 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://broker:29092
 
   jeap-error-handling-service-db-local:
-    image: postgres:17.7
+    image: postgres:17.10
     ports:
       - "5532:5432"
     environment:
@@ -54,7 +54,7 @@ services:
       - POSTGRES_DB=jeap-error-handling-service-db-local
 
   jme-receiverpublisher-outbox-local:
-    image: postgres:17.7
+    image: postgres:17.10
     ports:
       - "5533:5432"
     environment:
@@ -63,7 +63,7 @@ services:
       - POSTGRES_DB=jme-receiverpublisher-outbox-db-local
 
   jme-sequential-inbox-local:
-    image: postgres:17.7
+    image: postgres:17.10
     ports:
       - "5534:5432"
     environment:
