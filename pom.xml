@@ -57,7 +57,7 @@
         <jme-spring-boot-integration-test.version>5.5.0</jme-spring-boot-integration-test.version>
         <java.version>25</java.version>
         <maven.compiler.release>25</maven.compiler.release>
-        <maven.javadoc.skip>false</maven.javadoc.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 
     <dependencyManagement>
