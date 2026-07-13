@@ -138,6 +138,30 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
             </plugin>
+            <!-- Attach an empty javadoc jar to every module (javadoc generation itself is skipped via
+                 maven.javadoc.skip) so Maven Central's "javadoc must be present" check is satisfied
+                 uniformly, including for modules with no Java sources of their own. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>empty-javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                            <classesDirectory>${project.basedir}</classesDirectory>
+                            <excludes>
+                                <exclude>**/**</exclude>
+                            </excludes>
+                            <forceCreation>true</forceCreation>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
