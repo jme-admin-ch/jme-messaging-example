@@ -33,7 +33,7 @@
 
     <groupId>ch.admin.bit.jeap</groupId> <!-- GroupId is necessary for RHOS sca-check-->
     <artifactId>jme-messaging-example</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

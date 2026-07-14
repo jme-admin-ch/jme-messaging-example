@@ -26,10 +26,10 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class TopicConfiguration {
 
-    public static final String AUDIT_TOPIC = "protocol-create-audit-record-event"; // No default topic on CreateAuditRecordCommand
+    public static final String AUDIT_TOPIC = "protocol-createauditrecord"; // No default topic on CreateAuditRecordCommand
 
     @Configuration
-    @Profile("cloud|aws")
+    @Profile("!test & !local")
     @RequiredArgsConstructor
     @SuppressWarnings({"unused", "findbugs:RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE"})
     private static class TopicConfigurationCloud {

@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.1.1] - 2026-07-14
 
+### Change
+- Renamed audit topic
+
 ### Fixed
 - KafkaConsumerGroupAwaiter works on GitHub 
 

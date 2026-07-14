@@ -27,7 +27,7 @@ jeap:
         system-name: "jme"
   audit:
     transactional-outbox:
-      topic: "protocol-create-audit-record-event"
+      topic: "protocol-createauditrecord"
   messaging:
     kafka:
       errorTopicName: jme-messageprocessing-failed
