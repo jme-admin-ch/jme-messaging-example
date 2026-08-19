@@ -9,7 +9,6 @@ Apache License Version 2.0
 -------------------------------
 
  * LZ4 Java Compression - [at.yawk.lz4:lz4-java](https://github.com/yawkat/lz4-java)
- * LZ4 Java Compression - [at.yawk.lz4:lz4-java](https://github.com/yawkat/lz4-java)
  * ch.admin.bit.jeap:jeap-audit-command-builder - [ch.admin.bit.jeap:jeap-audit-command-builder](https://github.com/jeap-admin-ch/jeap-audit/tree/main/jeap-audit-command-builder)
  * ch.admin.bit.jeap:jeap-crypto-core - [ch.admin.bit.jeap:jeap-crypto-core](https://github.com/jeap-admin-ch/jeap-crypto/tree/main/jeap-crypto-core)
  * ch.admin.bit.jeap:jeap-db-schema-publisher-model-reader - [ch.admin.bit.jeap:jeap-db-schema-publisher-model-reader](https://github.com/jeap-admin-ch/jeap-db-schema-publisher/tree/main/jeap-db-schema-publisher-model-reader)
