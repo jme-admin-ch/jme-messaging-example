@@ -45,11 +45,6 @@
         <!-- Testing -->
         <dependency>
             <groupId>ch.admin.bit.jeap</groupId>
-            <artifactId>jeap-messaging-outbox</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.admin.bit.jeap</groupId>
             <artifactId>jme-messaging-common-lib</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

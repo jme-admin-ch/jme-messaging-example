@@ -12,6 +12,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **ch.admin.bit.jeap:jeap-oauth-mock-server**: 10.4.0 → 10.5.0 (minor)
 - **ch.admin.bit.jeap:jeap-error-handling-service**: 22.5.1 → 22.6.0 (minor)
 
+### Fixed
+- Removed the test-scoped `jeap-messaging-outbox` dependency from `jme-messaging-error-scs`, which demoted the
+  compile-scoped dependency that `jeap-error-handling-service` 22.6.0 newly brings in for the Modulith publication
+  error handling and thus kept the service from starting.
+
 ## [7.6.0] - 2026-08-31
 
 ### Dependencies
