@@ -422,6 +422,7 @@ MIT License
  * ClassGraph - [io.github.classgraph:classgraph](https://github.com/classgraph/classgraph)
  * Logstash Logback Encoder - [net.logstash.logback:logstash-logback-encoder](https://github.com/logfellow/logstash-logback-encoder)
  * Checker Qual - [org.checkerframework:checker-qual](https://checkerframework.org/)
+ * Checker Qual - [org.checkerframework:checker-qual](https://checkerframework.org/)
  * mockito-core - [org.mockito:mockito-core](https://github.com/mockito/mockito)
  * mockito-junit-jupiter - [org.mockito:mockito-junit-jupiter](https://github.com/mockito/mockito)
  * Project Lombok - [org.projectlombok:lombok](https://projectlombok.org)
