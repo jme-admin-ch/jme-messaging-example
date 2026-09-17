@@ -4,6 +4,9 @@ subTypeResolvers:
 sequences:
   - name: OrderSequence
     retentionPeriod: 5m
+    # To introduce this sequence on live topics, set a future local timestamp.
+    # Only this sequence records; leave the global sequencing-start-timestamp unset.
+    # sequencingStartTimestamp: '2026-10-01T08:00:00'
     messages:
 
       - type: JmeOrderCreatedEvent
