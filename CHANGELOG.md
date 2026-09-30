@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [14.2.0] - 2026-09-30
+
+### Added
+- Demonstrate an application-specific `ExceptionTemporalityResolver` in the subscriber service, classifying the new
+  `TemporaryExampleException` as `TEMPORARY` and delegating to jEAP's `DefaultExceptionTemporalityResolver` otherwise.
+- New sender endpoints `/send-error-message` and `/send-default-temporary-error-message` triggering a temporary error in
+  the subscriber resolved by the custom resolver and by the jEAP default resolver, respectively.
+- `ErrorHandlingIT` verifies that both errors are reported as temporary to the Error Handling Service.
+
 ## [14.1.0] - 2026-09-28
 
 ### Dependencies

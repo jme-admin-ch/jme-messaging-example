@@ -28,6 +28,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 class CommandController {
+    // Event messages which make the jme-messaging-subscriber-service fail, see its ExampleController
+    private static final String TEMPORARY_EXAMPLE_ERROR_TEXT = "temporary-example";
+    private static final String DEFAULT_TEMPORARY_ERROR_TEXT = "resource-access";
+
     private final KafkaCommandSender commandSender;
     private final TraceContextProvider traceContextProvider;
 
@@ -49,6 +53,20 @@ class CommandController {
                 command.getIdentity().getCreatedZoned(),
                 text,
                 command.getOptionalUser().map(MessageUser::getId).orElse(null));
+    }
+
+    @GetMapping(path = "/send-error-message")
+    // Should be PUT/POST but GET used to enable easy access of the example in browsers. Don't do this in real services!
+    // The subscriber fails with a TemporaryExampleException, resolved as temporary by its own ExceptionTemporalityResolver
+    public MessageContext sendErrorMessage(@RequestParam String idempotenceId) {
+        return sendCommand(TEMPORARY_EXAMPLE_ERROR_TEXT, idempotenceId);
+    }
+
+    @GetMapping(path = "/send-default-temporary-error-message")
+    // Should be PUT/POST but GET used to enable easy access of the example in browsers. Don't do this in real services!
+    // The subscriber fails with a ResourceAccessException, resolved as temporary by jEAP's DefaultExceptionTemporalityResolver
+    public MessageContext sendDefaultTemporaryErrorMessage(@RequestParam String idempotenceId) {
+        return sendCommand(DEFAULT_TEMPORARY_ERROR_TEXT, idempotenceId);
     }
 
     private AvroMessageUser createUserWithFullData() {

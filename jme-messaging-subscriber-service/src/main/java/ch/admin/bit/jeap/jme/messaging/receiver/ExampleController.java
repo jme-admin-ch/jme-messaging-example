@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -51,6 +52,10 @@ class ExampleController implements JmeDeclarationCreatedEventListener {
         switch (message) {
             case "fail" -> throw new FailedMessageException();
             case "npe" -> throw new NullPointerException();
+            // Temporality resolved as TEMPORARY by the application-specific ExampleExceptionTemporalityResolver
+            case "temporary-example" -> throw new TemporaryExampleException(message);
+            // Temporality resolved as TEMPORARY by jEAP's DefaultExceptionTemporalityResolver
+            case "resource-access" -> throw new ResourceAccessException("Simulated I/O error while calling a remote service");
             case "temp100" -> {
                 log.info("Processing of {} failed.", message);
                 throw new TemporaryProcessingException("999", "Something went wrong.");

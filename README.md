@@ -79,6 +79,10 @@ To trigger an event processing exception at the subscriber, the following links 
 * http://localhost:8070/jme-messaging-sender-service/?text=fail&idempotenceId=123 triggers a permanent failure
 * http://localhost:8070/jme-messaging-sender-service/?text=temp&idempotenceId=123 triggers a temporary failure with 66% probability
 * http://localhost:8070/jme-messaging-sender-service/?text=temp100&idempotenceId=123 triggers a temporary failure
+* http://localhost:8070/jme-messaging-sender-service/send-error-message?idempotenceId=123 triggers a
+  `TemporaryExampleException`, classified as temporary by the subscriber's own `ExceptionTemporalityResolver`
+* http://localhost:8070/jme-messaging-sender-service/send-default-temporary-error-message?idempotenceId=123 triggers a
+  `ResourceAccessException`, classified as temporary by jEAP's `DefaultExceptionTemporalityResolver`
 
 To trigger the outbox, the following link can be used:
 http://localhost:8079/jme-messaging-receiverpublisher-outbox-service/swagger-ui/index.html?configUrl=/jme-messaging-receiverpublisher-outbox-service/api-docs/swagger-config

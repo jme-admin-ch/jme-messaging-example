@@ -6,10 +6,12 @@ import ch.admin.bit.jme.declaration.JmeDeclarationCreatedEvent;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -17,9 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 /**
- * Covers the error-handling example: a NullPointerException thrown by the subscriber while consuming
- * the published event is picked up by jme-messaging-error-scs, which stores it and exposes it through
- * its (OAuth-protected) error query API.
+ * Covers the error-handling example: exceptions thrown by the subscriber while consuming the published event
+ * are picked up by jme-messaging-error-scs, which stores them and exposes them through its (OAuth-protected)
+ * error query API. Exceptions not providing a temporality themselves are classified by the subscriber's
+ * ExceptionTemporalityResolver.
  */
 @Slf4j
 class ErrorHandlingIT extends BootServiceSpringIntegrationTestBase {
@@ -62,6 +65,54 @@ class ErrorHandlingIT extends BootServiceSpringIntegrationTestBase {
         await().untilAsserted(() -> assertThat(errorCountForTrace(accessToken, traceId)).isEqualTo(1));
     }
 
+    @Test
+    void exceptionResolvedByCustomTemporalityResolverShowsUpAsTemporaryInErrorHandling() {
+        // The subscriber throws a TemporaryExampleException, classified by its ExampleExceptionTemporalityResolver
+        assertErrorIsTemporary(sendErrorMessage("/send-error-message"));
+    }
+
+    @Test
+    void exceptionResolvedByDefaultTemporalityResolverShowsUpAsTemporaryInErrorHandling() {
+        // The subscriber throws a ResourceAccessException, classified by jEAP's DefaultExceptionTemporalityResolver
+        assertErrorIsTemporary(sendErrorMessage("/send-default-temporary-error-message"));
+    }
+
+    private String sendErrorMessage(String path) {
+        return given()
+                .baseUri(SENDER_BASE_URL)
+                .queryParam("idempotenceId", UUID.randomUUID().toString())
+                .when()
+                .get(path)
+                .then()
+                .statusCode(200)
+                .extract().jsonPath().getString("traceId");
+    }
+
+    private void assertErrorIsTemporary(String traceId) {
+        String accessToken = retrieveAccessToken();
+
+        // Temporary errors are resent automatically by the error handling service. As the subscriber fails again,
+        // each resend adds a new error for the same trace, so we don't expect exactly one error here.
+        await().untilAsserted(() -> assertThat(errorCountForTrace(accessToken, traceId)).isGreaterThanOrEqualTo(1));
+
+        List<String> errorIds = errorIdsForTrace(accessToken, traceId);
+        assertThat(errorIds)
+                .isNotEmpty()
+                .allSatisfy(errorId -> assertThat(errorTemporality(accessToken, errorId)).isEqualTo("TEMPORARY"));
+    }
+
+    private String errorTemporality(String accessToken, String errorId) {
+        return given()
+                .baseUri(ERROR_SCS_BASE_URL)
+                .auth().oauth2(accessToken)
+                .pathParam("errorId", errorId)
+                .when()
+                .get("/api/error/{errorId}/details")
+                .then()
+                .statusCode(200)
+                .extract().jsonPath().getString("errorTemporality");
+    }
+
     private String retrieveAccessToken() {
         // Client defined in jme-messaging-auth-scs's application-local.yml with role jme_@error_#view
         return RestAssured.given()
@@ -76,6 +127,14 @@ class ErrorHandlingIT extends BootServiceSpringIntegrationTestBase {
     }
 
     private int errorCountForTrace(String accessToken, String traceId) {
+        return searchErrorsForTrace(accessToken, traceId).getInt("totalErrorCount");
+    }
+
+    private List<String> errorIdsForTrace(String accessToken, String traceId) {
+        return searchErrorsForTrace(accessToken, traceId).getList("errors.id", String.class);
+    }
+
+    private JsonPath searchErrorsForTrace(String accessToken, String traceId) {
         String body = """
                 {"dateFrom":"","dateTo":"","eventName":"","traceId":"%s","eventId":"",\
                 "stacktracePattern":"","states":null,"sortField":"created","sortOrder":"desc","closingReason":""}\
@@ -87,6 +146,6 @@ class ErrorHandlingIT extends BootServiceSpringIntegrationTestBase {
                 .body(body)
                 .when()
                 .post("/api/error/?pageIndex=0&pageSize=20")
-                .jsonPath().getInt("totalErrorCount");
+                .jsonPath();
     }
 }
