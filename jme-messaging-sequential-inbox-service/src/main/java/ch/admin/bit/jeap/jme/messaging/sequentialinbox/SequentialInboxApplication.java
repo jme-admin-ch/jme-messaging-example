@@ -14,7 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Slf4j
 @EnableJpaRepositories
 @JeapMessageConsumerContract(JmeOrderCreatedEvent.TypeRef.class)
-@JeapMessageConsumerContract(JmeOrderShippedEvent.TypeRef.class)
+@JeapMessageConsumerContract(value = JmeOrderShippedEvent.TypeRef.class,
+        topic = {JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC, JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC + "-v2"})
 @JeapMessageConsumerContract(JmeOrderValidatedEvent.TypeRef.class)
 @JeapMessageConsumerContract(JmeOrderPreparedEvent.TypeRef.class)
 public class SequentialInboxApplication {

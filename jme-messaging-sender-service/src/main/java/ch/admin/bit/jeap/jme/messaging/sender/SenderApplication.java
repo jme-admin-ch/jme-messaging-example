@@ -18,7 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @JeapMessageProducerContract(JmeOrderCreatedEvent.TypeRef.class)
 @JeapMessageProducerContract(JmeOrderPreparedEvent.TypeRef.class)
 @JeapMessageProducerContract(JmeOrderValidatedEvent.TypeRef.class)
-@JeapMessageProducerContract(JmeOrderShippedEvent.TypeRef.class)
+@JeapMessageProducerContract(value = JmeOrderShippedEvent.TypeRef.class,
+        topic = {JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC, JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC + "-v2"})
 public class SenderApplication {
     public static void main(String[] args) {
         SpringApplication.run(SenderApplication.class, args).getEnvironment();

@@ -13,7 +13,8 @@ sending/receiving commands. The example consists of the following modules:
 * *jme-messaging-self-messaging-service* shows how a message type can be evolved for a microservice that sends
   messages to itself
 * *jme-messaging-auth-scs* authenticates users to access the UI of jme-messaging-error-scs
-* *jme-messaging-sequential-inbox-service* demonstrates the sequential inbox
+* *jme-messaging-sequential-inbox-service* demonstrates the sequential inbox, including
+  [consuming a message type from two topics during migration](README_sequential_inbox.md#consuming-one-message-type-from-two-topics)
 
 To test the error-handling in error-handler, the following services can be used:
 * *jme-messaging-roguesender-service* sends events directly to the error topic

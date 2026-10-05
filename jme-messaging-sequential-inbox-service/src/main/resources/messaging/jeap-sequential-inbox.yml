@@ -31,6 +31,10 @@ sequences:
           predecessor: JmeOrderCreatedEvent
 
       - type: JmeOrderShippedEvent
+        # Consume both topics during a topic migration; both feed the same listener and sequence.
+        topics:
+          - jme-order-shipped
+          - jme-order-shipped-v2
         contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
         releaseCondition:
           # It is also possible to define conditions with OR, as well as nesting conditions.

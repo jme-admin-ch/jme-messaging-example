@@ -12,7 +12,7 @@ spring:
   datasource:
     hikari:
       schema: ${spring.jpa.properties.hibernate.default_schema}
-      maximum-pool-size: 5
+      maximum-pool-size: 10
       pool-name: "hikari-cp-${spring.application.name}"
 server:
   servlet:
