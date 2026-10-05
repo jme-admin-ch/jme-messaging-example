@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @JeapMessageConsumerContract(JmeOrderCreatedEvent.TypeRef.class)
 @JeapMessageConsumerContract(value = JmeOrderShippedEvent.TypeRef.class,
+        // Explicit topic names are only needed here because we consume from multiple topics; otherwise the default topic is used.
         topic = {JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC, JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC + "-v2"})
 @JeapMessageConsumerContract(JmeOrderValidatedEvent.TypeRef.class)
 @JeapMessageConsumerContract(JmeOrderPreparedEvent.TypeRef.class)

@@ -101,7 +101,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <!-- Skip repackaging to avoid building a fat jar; RHOS/Nivel wrapper modules do that -->
+                        <!-- Publish a plain jar that can be reused by executable application modules. -->
                         <phase>none</phase>
                     </execution>
                     <execution>

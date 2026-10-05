@@ -214,8 +214,9 @@ removal of references to the first event version, hence completing the full evol
 
 ## Message signing
 
-Messages published by this example are signed; message signing is configured differently per deployment platform
-(see the RHOS and Nivel repositories linked above for how signing keys/certificates are provisioned there). See
+Message signing can be configured using publisher signing keys/certificates and subscriber verification settings.
+See the [jEAP message-signing documentation](https://github.com/jeap-admin-ch/jeap-messaging/blob/master/docs/signing-messages.md)
+for configuration details and
 ![Overview jme messaging signature](jme-messaging-signature.png) for an overview.
 
 ## Sequential Inbox
@@ -232,7 +233,7 @@ rather than in-process. It covers:
 * `OutboxAndIdempotenceIT` — the transactional outbox and `@IdempotentMessageHandler` behavior
 * `ErrorHandlingIT` — a failed message consumption shows up via `jme-messaging-error-scs`'s error API
 * `DeadLetterIT` — a message put on the dead-letter topic is picked up by `jme-messaging-dltsubscriber-service`
-* `SequentialInboxIT` — a sequence only closes once all its dependent events have arrived, sent out of order
+* `SequentialInboxIT` — out-of-order sequencing on the original and migration topics, including cross-topic deduplication
 * `SelfMessagingSchemaEvolutionIT` — both v1 and v2 versions of the same event are consumed correctly
 
 ### Running locally

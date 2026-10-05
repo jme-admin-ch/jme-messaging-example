@@ -68,24 +68,19 @@ event** to both topics. Only one shipped message is handled, so the final count 
 Without either parameter, shipped events still go to the original topic. The new topic does not
 require a new message schema or a second handler.
 
-### RHOS and Nivel
+### Running locally
 
-The platform wrappers inherit this descriptor, sender endpoint and contracts from the shared
-example artifact. Run the same walkthrough using these base URLs:
-
-| Platform | Sender | Inbox inspection |
-|----------|--------|------------------|
-| Local | `http://localhost:8070/jme-messaging-sender-service` | `http://localhost:8089/jme-messaging-sequential-inbox-service` |
-| RHOS DEV | `https://bit-jme-d.apps.p-szb-ros-shrd-npr-01.cloud.admin.ch/jme-messaging-sender-service` | `https://bit-jme-d.apps.p-szb-ros-shrd-npr-01.cloud.admin.ch/jme-messaging-sequential-inbox-service` |
-| Nivel DEV | `https://jme-dev.ingress.nivel.bazg.admin.ch/jme-nivel-messaging-sender-service` | `https://jme-dev.ingress.nivel.bazg.admin.ch/jme-nivel-messaging-sequential-inbox-service` |
-
-Before deploying the wrappers, provision `jme-order-shipped-v2` on each platform's Kafka cluster
-and grant the sender write access and the inbox read access (plus schema-registry access).
-Topics are ordered from the cluster operator; they are not provisioned by the example's service
-GitOps files. The local Docker broker permits automatic topic creation. Deploy the upgraded inbox
-before publishing to the new topic; an existing topic's initial offset policy must be chosen
+Start the Docker infrastructure and services as described in [Getting started](README.md#getting-started).
+The sender base URL is `http://localhost:8070/jme-messaging-sender-service`; inbox inspection is
+available at `http://localhost:8089/jme-messaging-sequential-inbox-service`.
+The local Docker broker permits automatic topic creation. Start the inbox before publishing
+to the new topic; an existing topic's initial offset policy must be chosen
 explicitly if records were already published before subscription. After a migration, remove the
 old topic from the descriptor and contracts once it has been drained.
+
+For another Kafka installation, create both topics and configure sender write access, inbox read
+access, error-handler resend access and the necessary schema-registry permissions before running
+the example. Infrastructure provisioning is independent of the example application.
 
 ## Test this example
 
