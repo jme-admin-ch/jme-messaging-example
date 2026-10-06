@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [14.2.0] - 2026-09-30
+## [14.6.0] - 2026-10-06
 
 ### Added
 - Demonstrate an application-specific `ExceptionTemporalityResolver` in the subscriber service, classifying the new
@@ -13,6 +13,38 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - New sender endpoints `/send-error-message` and `/send-default-temporary-error-message` triggering a temporary error in
   the subscriber resolved by the custom resolver and by the jEAP default resolver, respectively.
 - `ErrorHandlingIT` verifies that both errors are reported as temporary to the Error Handling Service.
+
+## [14.5.0] - 2026-10-05
+
+### Dependencies
+- **ch.admin.bit.jeap:jeap-spring-boot-parent**: 41.15.0 → 41.17.0 (minor)
+
+## [14.4.1] - 2026-10-05
+
+### Added
+- Demonstrate Sequential Inbox topic migration and cross-topic deduplication with shipped events on the old and new topics, including a local walkthrough.
+
+### Changed
+- Upgrade jEAP parent to 41.15.0 and use its managed Sequential Inbox 22.8.0.
+
+## [14.4.0] - 2026-10-02
+
+### Dependencies
+- **ch.admin.bit.jeap:jeap-error-handling-service**: 25.2.0 → 25.3.0 (minor)
+- **ch.admin.bit.jeap.jme:jme-spring-boot-integration-test**: 8.1.1 → 8.1.3 (patch)
+
+## [14.3.0] - 2026-10-01
+
+### Dependencies
+- **ch.admin.bit.jeap:jeap-spring-boot-parent**: 41.13.0 → 41.14.0 (minor)
+- **ch.admin.bit.jeap:jeap-oauth-mock-server**: 11.5.0 → 11.7.0 (minor)
+- **ch.admin.bit.jeap:jeap-error-handling-service**: 25.0.0 → 25.2.0 (minor)
+
+## [14.2.0] - 2026-10-01
+
+### Dependencies
+- **ch.admin.bit.jeap:jeap-spring-boot-parent**: 41.11.0 → 41.13.0 (minor)
+- **ch.admin.bit.jeap.jme:jme-spring-boot-integration-test**: 8.1.0 → 8.1.1 (patch)
 
 ## [14.1.0] - 2026-09-28
 

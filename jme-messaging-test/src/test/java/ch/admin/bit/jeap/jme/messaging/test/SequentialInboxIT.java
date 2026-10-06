@@ -4,8 +4,11 @@ import ch.admin.bit.jeap.jme.test.BootServiceSpringIntegrationTestBase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -27,7 +30,11 @@ class SequentialInboxIT extends BootServiceSpringIntegrationTestBase {
     @BeforeAll
     static void startServices() throws Exception {
         startService("jme-messaging-sender-service", SENDER_BASE_URL);
-        startService("jme-messaging-sequential-inbox-service", SEQUENTIAL_INBOX_BASE_URL);
+        // Keep inspection results available until the test has checked them.
+        startService("jme-messaging-sequential-inbox-service", SEQUENTIAL_INBOX_BASE_URL, Map.of(
+                "jeap.messaging.sequential-inbox.housekeeping.closed-instances-cron", "-",
+                "jeap.messaging.sequential-inbox.housekeeping.expiry-cron", "-",
+                "jeap.messaging.sequential-inbox.housekeeping.delete-for-removal-cron", "-"));
     }
 
     @Test
@@ -70,6 +77,44 @@ class SequentialInboxIT extends BootServiceSpringIntegrationTestBase {
                 .get("/send-order-events/" + type)
                 .then()
                 .statusCode(200);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"newTopic", "bothTopics"})
+    void shippedEventOnNewTopicOrBothTopicsIsReleasedOnlyOnce(String topicOption) {
+        String orderId = UUID.randomUUID().toString();
+
+        sendOrderEvent("shipped", orderId, topicOption, "true");
+        await().untilAsserted(() -> assertThat(sequenceInstanceStatusCode(orderId)).isEqualTo(200));
+        assertThat(sequenceState(orderId)).isEqualTo("OPEN");
+        assertThat(recordedMessages(orderId)).isEmpty();
+
+        sendOrderEvent("created", orderId);
+        sendOrderEvent("prepared", orderId);
+        sendOrderEvent("validated", orderId, "validationType", "STOCK_AVAILABLE");
+        sendOrderEvent("validated", orderId, "validationType", "CUSTOMER_CREDIT_CHECKED");
+
+        await().untilAsserted(() -> {
+            assertThat(sequenceState(orderId)).isEqualTo("CLOSED");
+            assertThat(recordedMessages(orderId)).hasSize(5);
+        });
+        List<String> topics = given()
+                .baseUri(SEQUENTIAL_INBOX_BASE_URL)
+                .queryParam("contextId", orderId)
+                .get("/inspect/sequence")
+                .jsonPath().getList("messages.topic");
+        assertThat(topics).hasSize(5);
+        if ("newTopic".equals(topicOption)) {
+            assertThat(topics).contains("jme-order-shipped-v2");
+        }
+    }
+
+    private List<Object> recordedMessages(String orderId) {
+        return given()
+                .baseUri(SEQUENTIAL_INBOX_BASE_URL)
+                .queryParam("contextId", orderId)
+                .get("/inspect/recorded-messages")
+                .jsonPath().getList("$");
     }
 
     private int sequenceInstanceStatusCode(String orderId) {

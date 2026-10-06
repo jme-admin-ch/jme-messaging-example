@@ -81,12 +81,20 @@ class SendOrderEventsController {
 
     @GetMapping(path = "/shipped")
     @SneakyThrows
-    public MessageContext sendShipped(@RequestParam String orderId) {
+    public MessageContext sendShipped(@RequestParam String orderId,
+                                      @RequestParam(defaultValue = "false") boolean newTopic,
+                                      @RequestParam(defaultValue = "false") boolean bothTopics) {
         JmeOrderShippedEvent event = JmeOrderShippedEventBuilder.create()
                 .idempotenceId(UUID.randomUUID().toString())
                 .orderId(orderId)
                 .build();
-        send(JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC, event);
+        if (bothTopics) {
+            // Send the same event, including its idempotence ID, to both topics to demonstrate deduplication.
+            send(JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC, event);
+            send(JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC + "-v2", event);
+        } else {
+            send(JmeOrderShippedEvent.TypeRef.DEFAULT_TOPIC + (newTopic ? "-v2" : ""), event);
+        }
         return returnMessageContext(event, orderId);
     }
 

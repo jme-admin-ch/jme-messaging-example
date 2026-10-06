@@ -13,7 +13,8 @@ sending/receiving commands. The example consists of the following modules:
 * *jme-messaging-self-messaging-service* shows how a message type can be evolved for a microservice that sends
   messages to itself
 * *jme-messaging-auth-scs* authenticates users to access the UI of jme-messaging-error-scs
-* *jme-messaging-sequential-inbox-service* demonstrates the sequential inbox
+* *jme-messaging-sequential-inbox-service* demonstrates the sequential inbox, including
+  [consuming a message type from two topics during migration](README_sequential_inbox.md#consuming-one-message-type-from-two-topics)
 
 To test the error-handling in error-handler, the following services can be used:
 * *jme-messaging-roguesender-service* sends events directly to the error topic
@@ -217,8 +218,9 @@ removal of references to the first event version, hence completing the full evol
 
 ## Message signing
 
-Messages published by this example are signed; message signing is configured differently per deployment platform
-(see the RHOS and Nivel repositories linked above for how signing keys/certificates are provisioned there). See
+Message signing can be configured using publisher signing keys/certificates and subscriber verification settings.
+See the [jEAP message-signing documentation](https://github.com/jeap-admin-ch/jeap-messaging/blob/master/docs/signing-messages.md)
+for configuration details and
 ![Overview jme messaging signature](jme-messaging-signature.png) for an overview.
 
 ## Sequential Inbox
@@ -235,7 +237,7 @@ rather than in-process. It covers:
 * `OutboxAndIdempotenceIT` — the transactional outbox and `@IdempotentMessageHandler` behavior
 * `ErrorHandlingIT` — a failed message consumption shows up via `jme-messaging-error-scs`'s error API
 * `DeadLetterIT` — a message put on the dead-letter topic is picked up by `jme-messaging-dltsubscriber-service`
-* `SequentialInboxIT` — a sequence only closes once all its dependent events have arrived, sent out of order
+* `SequentialInboxIT` — out-of-order sequencing on the original and migration topics, including cross-topic deduplication
 * `SelfMessagingSchemaEvolutionIT` — both v1 and v2 versions of the same event are consumed correctly
 
 ### Running locally

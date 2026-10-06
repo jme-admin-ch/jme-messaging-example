@@ -34,8 +34,53 @@ deployment before enabling recording. Expired instances created in recording mod
 the usual housekeeping delay without forwarding buffered messages to EHS. Normal instances retain
 the existing EHS behavior. The provenance flag survives timestamp changes and restarts.
 
-This branch overrides the parent-managed inbox version with released version `22.0.0` until a released
-jEAP parent manages that version.
+## Consuming one message type from two topics
+
+The example uses Sequential Inbox 22.8.0, managed by jEAP parent 41.15.0. The shipped event is
+consumed from both its original topic and a migration topic:
+
+```yaml
+- type: JmeOrderShippedEvent
+  topics:
+    - jme-order-shipped
+    - jme-order-shipped-v2
+  contextIdExtractor: ch.admin.bit.jeap.jme.messaging.sequentialinbox.model.ProcessIdExtractor
+  releaseCondition:
+    and:
+      - predecessor: JmeOrderValidatedEvent.STOCK_AVAILABLE
+      - predecessor: JmeOrderValidatedEvent.CUSTOMER_CREDIT_CHECKED
+      - predecessor: JmeOrderPreparedEvent
+```
+
+Both consumers invoke the same `@SequentialInboxMessageListener` and feed the same order sequence.
+The sender and inbox declare contracts for both topics. `topic` and `topics` are mutually exclusive;
+omitting both still selects the message type's default topic. Each extra topic adds a consumer
+container, so check the database connection pool and consumer concurrency when enabling it.
+
+For a fresh order ID, first send `/send-order-events/shipped?orderId=multi-topic-1&newTopic=true`.
+The sequence is `OPEN`, the shipped message is `WAITING` on `jme-order-shipped-v2`, and no business
+message has been recorded. Then send created, prepared and both validated events as below: the
+sequence closes and five messages are recorded. The sequence inspection response includes each
+message's actual `topic`.
+
+Repeat with a fresh order ID and `bothTopics=true` instead of `newTopic=true` to send the **same
+event** to both topics. Only one shipped message is handled, so the final count remains five.
+Without either parameter, shipped events still go to the original topic. The new topic does not
+require a new message schema or a second handler.
+
+### Running locally
+
+Start the Docker infrastructure and services as described in [Getting started](README.md#getting-started).
+The sender base URL is `http://localhost:8070/jme-messaging-sender-service`; inbox inspection is
+available at `http://localhost:8089/jme-messaging-sequential-inbox-service`.
+The local Docker broker permits automatic topic creation. Start the inbox before publishing
+to the new topic; an existing topic's initial offset policy must be chosen
+explicitly if records were already published before subscription. After a migration, remove the
+old topic from the descriptor and contracts once it has been drained.
+
+For another Kafka installation, create both topics and configure sender write access, inbox read
+access, error-handler resend access and the necessary schema-registry permissions before running
+the example. Infrastructure provisioning is independent of the example application.
 
 ## Test this example
 
