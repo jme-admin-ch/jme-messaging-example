@@ -62,6 +62,8 @@ jeap:
   security:
     oauth2:
       resourceserver:
+        resource-id: "https://resources.jme.admin.ch/jme/jme-messaging-error-scs"
+        strict-audience-validation: "on"
         system-name: "jme"
   postgresql:
     aws:

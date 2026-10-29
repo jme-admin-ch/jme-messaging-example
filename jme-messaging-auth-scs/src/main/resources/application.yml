@@ -30,3 +30,6 @@ jeap:
   web:
     tls:
       enabled: false
+
+mockserver:
+  introspection-endpoint-audience-check: "on"

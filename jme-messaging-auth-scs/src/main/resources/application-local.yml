@@ -16,6 +16,8 @@ oauth-mock-data:
         - "jme_@error_#delete"
         - "jme_@errorgroup_#view"
         - "jme_@errorgroup_#edit"
+      audience:
+        - "https://resources.jme.admin.ch/jme/jme-messaging-error-scs"
 
     - client-id: "sequential-inbox-devops"
       registered-redirect-uri:
@@ -23,6 +25,8 @@ oauth-mock-data:
       userroles:
         - "jme_@sequentialinbox_#view"
         - "jme_@sequentialinbox_#write"
+      audience:
+        - "https://resources.jme.admin.ch/jme/jme-messaging-sequential-inbox-service"
 
     - client-id: "shared-agir-web-ui-client"
       context: "USER"
@@ -38,9 +42,13 @@ oauth-mock-data:
       client-secret: "{noop}secret"
       context: "SYS"
       userroles: [ "jme_@error_#view", "jme_@error_#retry" ]
+      audience:
+        - "https://resources.jme.admin.ch/jme/jme-messaging-error-scs"
 
     - client-id: "declaration-devops"
       context: "USER"
       userroles: [ "jme_@declaration_#write" ]
       registered-redirect-uri:
         - "http://localhost:8079/jme-messaging-receiverpublisher-outbox-service/swagger-ui/oauth2-redirect.html"
+      audience:
+        - "https://resources.jme.admin.ch/jme/jme-messaging-receiverpublisher-outbox-service"
