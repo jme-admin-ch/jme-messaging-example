@@ -1,8 +1,8 @@
 publiccodeYmlVersion: 0.5.0
 name: jme-messaging-example
 applicationSuite: JME
-softwareVersion: 14.20.0
-releaseDate: 2026-10-29
+softwareVersion: 14.21.0
+releaseDate: 2026-10-30
 url: "https://github.com/jme-admin-ch/jme-messaging-example.git"
 landingURL: "https://github.com/jme-admin-ch/jme"
 platforms:
