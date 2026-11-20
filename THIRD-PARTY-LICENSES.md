@@ -34,6 +34,7 @@ Apache License Version 2.0
  * ch.admin.bit.jeap:jeap-open-api-publisher-starter - [ch.admin.bit.jeap:jeap-open-api-publisher-starter](https://github.com/jeap-admin-ch/jeap-open-api-publisher/tree/main)
  * ch.admin.bit.jeap:jeap-reaction-observer-core - [ch.admin.bit.jeap:jeap-reaction-observer-core](https://github.com/jeap-admin-ch/jeap-reaction-observer/tree/main/jeap-reaction-observer-core)
  * ch.admin.bit.jeap:jeap-reaction-observer-events - [ch.admin.bit.jeap:jeap-reaction-observer-events](https://github.com/jeap-admin-ch/jeap-reaction-observer/tree/main/jeap-reaction-observer-events)
+ * ch.admin.bit.jeap:jeap-reaction-observer-header-starter - [ch.admin.bit.jeap:jeap-reaction-observer-header-starter](https://github.com/jeap-admin-ch/jeap-reaction-observer/tree/main/jeap-reaction-observer-header-starter)
  * ch.admin.bit.jeap:jeap-reaction-observer-messaging - [ch.admin.bit.jeap:jeap-reaction-observer-messaging](https://github.com/jeap-admin-ch/jeap-reaction-observer/tree/main/jeap-reaction-observer-messaging)
  * ch.admin.bit.jeap:jeap-reaction-observer-starter - [ch.admin.bit.jeap:jeap-reaction-observer-starter](https://github.com/jeap-admin-ch/jeap-reaction-observer/tree/main/jeap-reaction-observer-starter)
  * ch.admin.bit.jeap:jeap-spring-boot-application-starter - [ch.admin.bit.jeap:jeap-spring-boot-application-starter](https://github.com/jeap-admin-ch/jeap-spring-boot-starters/tree/main/jeap-spring-boot-application-starter)
